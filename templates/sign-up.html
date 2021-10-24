@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'signup/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'signup/css/style.css' %}">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" action="{% url 'customerAccount' %}" class="appointment-form" id="appointment-form" enctype="multipart/form-data">{% csrf_token %}
+                <h2>Customer SIGN-UP Form</h2>
+                <div class="form-group-1">
+                    <input type="text" name="name" id="name" placeholder="Full Name *" required />
+                    <input type="email" name="email" id="email" placeholder="Email (not mandatory)" />
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Phone number *" maxlength="10" required />
+                    <input type="text" name="address" id="address" placeholder="Address *" required />
+                    <input type="text" name="id_proof" id="idproof" placeholder="ID-Proof (Adhaar Number) *" required />
+                    <label style="color: black;">Profile Image</label>
+                    <input type="file" name="profile_img" id="profileimg" placeholder="Profile Image *" required />
+                    <input type="password" name="password" id="password" placeholder="Password *" required />
+                    <input type="password" id="checkpassword" placeholder="Confirm Password *" required />
+                    <label id="password_match_msg" style="font-size: bold;"></label>
+                </div>
+                <div class="form-submit" style="margin-top: .5rem;">
+                    <input type="submit" name="submit" id="submit" class="submit" disabled value="sign-in" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <script src="{% static 'assets3/js/core/jquery.min.js' %}"></script>
+    <script>
+      $('#checkpassword').keyup(function () {
+            password = $('#password').val();
+            cpassword = $('#checkpassword').val();
+            if (password === cpassword) {
+                document.getElementById('password_match_msg').style.color = 'green';
+                document.getElementById('password_match_msg').innerText = 'Password Matched';
+                $('#submit').prop('disabled', false);
+            }
+            else {
+                document.getElementById('password_match_msg').style.color = 'red';
+                document.getElementById('password_match_msg').innerText = "Password Doesn't Matched";
+                $('#submit').prop('disabled', true);
+            }
+        });
+    </script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

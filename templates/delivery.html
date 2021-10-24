@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+
+{% block table %}
+{% load static %}
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
+<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+<style>
+  #createDelivery {
+    position: relative;
+    left: 600px;
+  }
+
+  /* @media only screen and (max-width: 770px) {
+        #createDelivery{
+        position: relative;
+        left: 100px;
+    }
+} */
+  @media only screen and (max-width: 1024px) {
+    #createDelivery {
+      position: relative;
+      left: 300px;
+    }
+  }
+
+  @media only screen and (max-width: 574px) {
+    #createDelivery {
+      position: relative;
+      left: 0;
+    }
+  }
+</style>
+
+{% endblock %}
+
+{% block deliverytab %}active{% endblock %}
+
+
+{% block content %}
+{% load static %}
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Total Delivery Person</p>
+            <h3 class="card-title">values|length</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6" id="createDelivery">
+        <div class="card card-stats" style="background-color: transparent;">
+          <button type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#deliveryProfileForm">Primary</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Tasks:</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                      <i class="material-icons">present_to_all</i> All
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#messages" data-toggle="tab">
+                      <i class="material-icons">code</i> Pending
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-toggle="tab">
+                      <i class="material-icons">cloud</i> Approved
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active table-responsive" id="profile">
+                <table id="example" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      </td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td><span class="badge badge-pill badge-success">Alortted</span></td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Startup Name</th>
+                      <th>Sector</th>
+                      <th>Form Submitted Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="messages">
+                <table id="example1" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      </td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Startup Name</th>
+                      <th>Sector</th>
+                      <th>Form Submitted Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="settings">
+                <table id="example2" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Approved Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      </td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td>value.approved_date</td>
+                      <td><span class="badge badge-pill badge-warning">Approved</span></td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Startup Name</th>
+                      <th>Sector</th>
+                      <th>Form Submitted Date</th>
+                      <th>Approved Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deliveryProfileForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Create Delivery Person Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'delivery_account' %}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <input type="text" class="form-control" name="name" id="inputName" placeholder="Full-Name *" required>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email *" required>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" name="contact_no" id="inputContactNo"
+                placeholder="Contact Number *" required maxlength="10">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="test" class="form-control" id="inputIDProof" name="id_proof" placeholder="Id-Proof *" required>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="test" class="form-control" id="inputLocation" name="location" placeholder="Location">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="password" class="form-control" name="password" id="inputPassword4" placeholder="Password">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="password" class="form-control" id="inputConfirmPassword4" placeholder="Confirm Password">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="address" id="inputAddress" placeholder="Address">
+          </div>
+          <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+            <div>
+                <span class="btn btn-raised btn-round btn-default btn-file">
+                    <span class="fileinput-new">Select Profile image</span>
+                    <span class="fileinput-exists">Change</span>
+                    <input type="file" name="profile_img" />
+                </span>
+            </div>
+        </div>
+          <!-- <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputState">State</label>
+                    <select id="inputState" class="form-control">
+                      <option selected>Choose...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2 ml-auto">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip">
+                  </div>
+                </div> -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block table_script %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+  });
+
+  $(document).ready(function () {
+    $('#example1').DataTable();
+  });
+
+  $(document).ready(function () {
+    $('#example2').DataTable();
+  });
+</script>
+{% endblock %}

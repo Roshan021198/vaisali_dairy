@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block table %}
+{% load static %}
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
+<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+
+
+{% endblock %}
+
+
+{% block dashboard %}active{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Total Applications</p>
+            <h3 class="card-title">{{values|length}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Approved</p>
+            <h3 class="card-title">{{approveds|length}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">store</i>
+            </div>
+            <p class="card-category">Alortted</p>
+            <h3 class="card-title">{{allorteds|length}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info_outline</i>
+            </div>
+            <p class="card-category">Rejected</p>
+            <h3 class="card-title">{{rejecteds|length}}</h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Tasks:</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                      <i class="material-icons">present_to_all</i> All
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#messages" data-toggle="tab">
+                      <i class="material-icons">code</i> Pending
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-toggle="tab">
+                      <i class="material-icons">cloud</i> Approved
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active table-responsive" id="profile">
+                <table id="example" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+                   
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td><span class="badge badge-pill badge-success">Alortted</span></td>
+                    </tr>
+                    
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Startup Name</th>
+                        <th>Sector</th>
+                        <th>Form Submitted Date</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="messages">
+                <table id="example1" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Startup Name</th>
+                        <th>Sector</th>
+                        <th>Form Submitted Date</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="settings">
+                <table id="example2" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Approved Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td>value.approved_date</td>
+                      <td><span class="badge badge-pill badge-warning">Approved</span></td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Startup Name</th>
+                        <th>Sector</th>
+                        <th>Form Submitted Date</th>
+                        <th>Approved Date</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block table_script %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#example1').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#example2').DataTable();
+} );
+</script>
+
+
+{% endblock %}
