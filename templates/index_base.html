@@ -24,6 +24,12 @@
   <link rel="stylesheet" href="{% static 'homepage/plugins/theme-mode-switcher/switcher-panel.css' %}">
   <link rel="stylesheet" href="{% static 'homepage/css/main.css' %}">
   <!-- Custom stylesheet -->
+
+  <style>
+    .sign_btn{
+      display: inline;
+    }
+  </style>
 </head>
 
 <body data-theme-mode-panel-active data-theme="light">
@@ -272,11 +278,18 @@
               </ul>
             </nav>
           </div>
-          <div class="header-btn ">
-            <a class="btn btn btn-niagara btn--medium-4 h-45 rounded-50 text-white shadow--niagara-3 ms-auto ms-lg-4 d-none d-sm-flex" href="{% url 'dashboard' %}">
-              Sign IN
-            </a>
+          {% if user.is_authenticated %}
+          <div class="header-btn">
+            <a class="btn btn btn-niagara btn--medium-4 h-45 rounded-50 text-white shadow--niagara-3 ms-auto ms-lg-4 d-none d-sm-flex " href="{% url 'dashboard' %}">Dashboard</a>
           </div>
+          <div class="header-btn">
+            <a class="btn btn btn-niagara btn--medium-4 h-45 rounded-50 text-white shadow--niagara-3 ms-auto ms-lg-4 d-none d-sm-flex" href="{% url 'logout' %}">Logout</a>
+          </div>
+          {% else %}
+          <div class="header-btn">
+            <a class="btn btn btn-niagara btn--medium-4 h-45 rounded-50 text-white shadow--niagara-3 ms-auto ms-lg-4 d-none d-sm-flex" href="{% url 'dashboard' %}">Sign IN</a>
+          </div>
+          {% endif %}
           <!-- mobile menu trigger -->
           <div class="mobile-menu-trigger">
             <span></span>

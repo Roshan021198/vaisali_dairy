@@ -2,6 +2,8 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse,Http404,JsonResponse, response
 from django.contrib.auth.models import auth
 
+# from vaisali.home.views import customer
+
 from .models import Account,Customer,Deliveryperson,Mainadmin
 import requests
 import random
@@ -39,9 +41,13 @@ def customerAccount(request):
         contact_no = request.POST.get('phone_number')
         address = request.POST.get('address',None)
         email = request.POST.get('email',None)
+        if not email:
+            email = "panigrahi.babu98@gmail.com"
         id_proof = request.POST.get('id_proof',None)
         password = request.POST.get('password',None)
         profile_img = request.FILES.get('profile_img',None)
+        if profile_img == None:
+            profile_img = 'customerimg/profile_image.png'
 
         account_obj = Account.objects.create_user(username=contact_no)
         account_obj.set_password(password)
@@ -65,6 +71,8 @@ def delivery_account(request):
         address = request.POST.get('address')
         password = request.POST.get('password')
         profile_img = request.FILES.get('profile_img',None)
+        if profile_img == None:
+            profile_img = 'deliveryboy/profile_image.png'
         account_obj = Account.objects.create_user(username=contact_no,is_delivery=True)
         account_obj.set_password(password)
         account_obj.save()
@@ -195,3 +203,26 @@ def set_password(request):
         'uname':uname
     }
     return JsonResponse(data)
+
+
+
+
+
+def update_customer(request,pk):
+    customer_obj = get_object_or_404(Customer,pk=pk)
+    if request.method == 'POST':
+        unique_pk = request.POST.get('deli_obj')
+        delivery_obj = Deliveryperson.objects.filter(pk=unique_pk)
+        customer_obj.account.update_customer_account()
+        customer_obj.update_request(obj=delivery_obj[0])
+        return redirect('customer')
+    return redirect('customer')
+
+
+
+
+def delete_customer(request,pk):
+    customer_obj = get_object_or_404(Customer,pk=pk)
+    account_obj = customer_obj.account
+    account_obj.delete()
+    return redirect('customer')

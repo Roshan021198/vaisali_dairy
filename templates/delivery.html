@@ -56,7 +56,7 @@
               <i class="material-icons">content_copy</i>
             </div>
             <p class="card-category">Total Delivery Person</p>
-            <h3 class="card-title">values|length</h3>
+            <h3 class="card-title">{{values|length}}</h3>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
                       <div class="ripple-container"></div>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="#messages" data-toggle="tab">
                       <i class="material-icons">code</i> Pending
                       <div class="ripple-container"></div>
@@ -95,7 +95,7 @@
                       <i class="material-icons">cloud</i> Approved
                       <div class="ripple-container"></div>
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
             </div>
@@ -106,35 +106,38 @@
                 <table id="example" class="table table-striped" style="width:100%">
                   <thead>
                     <th>SL NO</th>
-                    <th>Startup Name</th>
-                    <th>Sector</th>
-                    <th>Form Submitted Date</th>
-                    <th>Status</th>
+                    <th>Delivery Person</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Employee ID</th>
+                    <th>Account Created</th>
                   </thead>
                   <tbody>
-
+                    {% for value in values %}
                     <tr>
-                      <td>1</td>
-                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="{% url 'individual_delivery_person' pk=value.pk %}" target="_blank" style="font-weight:bold; color: black;">{{value.name}}</a>
                       </td>
-                      <td>value.sector</td>
-                      <td>value.open_date</td>
-                      <td><span class="badge badge-pill badge-success">Alortted</span></td>
+                      <td>{{value.email}}</td>
+                      <td>{{value.contact_no}}</td>
+                      <td>{{value.emp_id}}</td>
+                      <td>{{value.date_joined}}</td>
                     </tr>
-
+                    {% endfor %}
                   </tbody>
                   <tfoot>
                     <tr>
                       <th>SL NO</th>
-                      <th>Startup Name</th>
-                      <th>Sector</th>
-                      <th>Form Submitted Date</th>
-                      <th>Status</th>
+                      <th>Delivery Person</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Employee ID</th>
+                    <th>Account Created</th>
                     </tr>
                   </tfoot>
                 </table>
               </div>
-              <div class="tab-pane" id="messages">
+              <!-- <div class="tab-pane" id="messages">
                 <table id="example1" class="table table-striped" style="width:100%">
                   <thead>
                     <th>SL NO</th>
@@ -199,7 +202,7 @@
                     </tr>
                   </tfoot>
                 </table>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -232,7 +235,7 @@
             </div>
             <div class="form-group col-md-6">
               <input type="text" class="form-control" name="contact_no" id="inputContactNo"
-                placeholder="Contact Number *" required maxlength="10">
+                placeholder="Contact Number * (USER-ID)" required maxlength="10">
             </div>
             <div class="form-group col-md-6">
               <input type="test" class="form-control" id="inputIDProof" name="id_proof" placeholder="Id-Proof *" required>
@@ -287,6 +290,7 @@
     </div>
   </div>
 </div>
+
 
 {% endblock %}
 

@@ -59,6 +59,10 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
 	    return True
 
+    def update_customer_account(self):
+        self.is_customer = True
+        self.save()
+
 
 
 class Deliveryperson(models.Model):
@@ -71,9 +75,10 @@ class Deliveryperson(models.Model):
     location = models.CharField(max_length=500,null=True,blank=True)
     id_proof = models.CharField(max_length=500,null=True,blank=True)
     profile_img = models.ImageField(upload_to='deliveryboy/',null=True,blank=True)
+    date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True ,null=True,blank=True)
 
     def __str__(self):
-        return self.emp_id
+        return self.emp_id +" " +self.name
 
 
 
@@ -88,10 +93,18 @@ class Customer(models.Model):
     location = models.CharField(max_length=500,null=True,blank=True)
     id_proof = models.CharField(max_length=500,null=True,blank=True)
     profile_img = models.ImageField(upload_to='customerimg/',null=True,blank=True)
+    sign_up_date = models.DateTimeField(verbose_name='sign_up_date', auto_now_add=True ,null=True,blank=True)
+    request = models.BooleanField(default=False)
 
 
     def __str__(self):
         return self.name
+
+
+    def update_request(self,obj):
+        self.delivery_boy = obj
+        self.request = True
+        self.save()
 
 
 class Mainadmin(models.Model):
@@ -111,7 +124,7 @@ class Mainadmin(models.Model):
 
 
 class Transcation(models.Model):
-    from_delivery = models.CharField(max_length=100, null=True, blank=True)
+    from_delivery = models.ForeignKey(Deliveryperson, on_delete=models.CASCADE,null=True,blank=True)
     connect_customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=50, null=True, blank=True)
     price = models.CharField(max_length=50, null=True, blank=True)
@@ -119,11 +132,22 @@ class Transcation(models.Model):
     customer_approval = models.BooleanField(default=False)
     remark = models.CharField(max_length=50, null=True, blank=True)
     customer_message = models.CharField(max_length=1000, null=True, blank=True)
-    remark_date = models.DateTimeField(verbose_name='remark date')
+    remark_date = models.DateTimeField(verbose_name='remark date',null=True,blank=True)
     final_approval = models.BooleanField(default=False)
 
 
     def __str__(self):
         return self.connect_customer.name
+
+    def updateTransaction(self,remark,customer_message):
+        self.customer_approval = True
+        self.remark = remark
+        self.customer_message = customer_message
+        self.remark_date = datetime.now()
+        self.save()
+
+    def completeTransaction(self):
+        self.final_approval = True
+        self.save()
 
 

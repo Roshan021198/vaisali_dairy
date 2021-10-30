@@ -106,30 +106,45 @@
                 <table id="example" class="table table-striped" style="width:100%">
                   <thead>
                     <th>SL NO</th>
-                    <th>Startup Name</th>
-                    <th>Sector</th>
-                    <th>Form Submitted Date</th>
+                    <th>Customer Name(TO)</th>
+                    <th>Delivery Person(FROM)</th>
+                    <th>Transaction Date</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                     <th>Status</th>
                   </thead>
                   <tbody>
-                   
+
+                    {% for transaction in transactions %}
                     <tr>
-                      <td>1</td>
-                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
-                      <td>value.sector</td>
-                      <td>value.open_date</td>
-                      <td><span class="badge badge-pill badge-success">Alortted</span></td>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="#" target="_blank" data-toggle="modal" data-target="#addremarks{{transaction.pk}}"
+                          style="font-weight:bold; color: black;">{{transaction.connect_customer.name}}</a></td>
+                      <td>{{transaction.from_delivery.name}}</td>
+                      <td>{{transaction.date_of_creation}}</td>
+                      <td>{{transaction.quantity}}</td>
+                      <td>{{transaction.price}}</td>
+                      {% if transaction.customer_approval and transaction.final_approval %}
+                      <td><span class="badge badge-pill badge-success">Completed</span></td>
+                      {% elif transaction.customer_approval %}
+                      <td><span class="badge badge-pill badge-warning">Customer Approved</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                      {% endif %}
                     </tr>
-                    
+                    {% endfor %}
+
                   </tbody>
                   <tfoot>
-                      <tr>
-                        <th>SL NO</th>
-                        <th>Startup Name</th>
-                        <th>Sector</th>
-                        <th>Form Submitted Date</th>
-                        <th>Status</th>
-                      </tr>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Customer Name(TO)</th>
+                      <th>Delivery Person(FROM)</th>
+                      <th>Transaction Date</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -146,7 +161,8 @@
 
                     <tr>
                       <td>1</td>
-                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      </td>
                       <td>value.sector</td>
                       <td>value.open_date</td>
                       <td><span class="badge badge-pill badge-danger">Pending</span></td>
@@ -154,13 +170,13 @@
 
                   </tbody>
                   <tfoot>
-                      <tr>
-                        <th>SL NO</th>
-                        <th>Startup Name</th>
-                        <th>Sector</th>
-                        <th>Form Submitted Date</th>
-                        <th>Status</th>
-                      </tr>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Startup Name</th>
+                      <th>Sector</th>
+                      <th>Form Submitted Date</th>
+                      <th>Status</th>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -175,10 +191,11 @@
                     <th>Status</th>
                   </thead>
                   <tbody>
-                    
+
                     <tr>
                       <td>1</td>
-                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a>
+                      </td>
                       <td>value.sector</td>
                       <td>value.open_date</td>
                       <td>value.approved_date</td>
@@ -186,14 +203,14 @@
                     </tr>
                   </tbody>
                   <tfoot>
-                      <tr>
-                        <th>SL NO</th>
-                        <th>Startup Name</th>
-                        <th>Sector</th>
-                        <th>Form Submitted Date</th>
-                        <th>Approved Date</th>
-                        <th>Status</th>
-                      </tr>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Startup Name</th>
+                      <th>Sector</th>
+                      <th>Form Submitted Date</th>
+                      <th>Approved Date</th>
+                      <th>Status</th>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -206,6 +223,90 @@
   </div>
 </div>
 
+<!-- Modal -->
+{% for transaction in transactions %}
+<div class="modal fade" id="addremarks{{transaction.pk}}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">ADD Remarks</h5> <br>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p class="ml-3" style="font-weight:bold;">Date: {{transaction.date_of_creation}}</p>
+      <div class="modal-body">
+        {% if transaction.customer_approval == False %}
+        <form method="POST" action="{% url 'update_transaction' pk=transaction.pk %}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Delivery Person Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1"
+              value="{{transaction.from_delivery.name}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Quantity</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.quantity}}"
+              disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Price</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.price}}"
+              disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Product Status</label>
+            <select class="form-control selectpicker" data-style="btn btn-link" name="product_status"
+              id="exampleFormControlSelect1" required>
+              <option disabled selected="selected"></option>
+
+              <option value="Delivered">Delivered</option>
+              <option value="Burst Milk">Burst Milk</option>
+              <option value="Others">Others</option>
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Customer Message</label>
+            <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+        {% else %}
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Delivery Person Name</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1"
+            value="{{transaction.from_delivery.name}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Quantity</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.quantity}}"
+            disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Price</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.price}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Product Status</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.remark}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Customer Message</label>
+          <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"
+            disabled>{{transaction.customer_message}}</textarea>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% endblock %}
 
@@ -222,17 +323,17 @@
 
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#example').DataTable();
-} );
+  });
 
-$(document).ready(function() {
+  $(document).ready(function () {
     $('#example1').DataTable();
-} );
+  });
 
-$(document).ready(function() {
+  $(document).ready(function () {
     $('#example2').DataTable();
-} );
+  });
 </script>
 
 

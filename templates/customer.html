@@ -1,184 +1,317 @@
-
 {% extends 'base.html' %}
 
-{% block portfolio %}active{% endblock %}
+{% block table %}
+{% load static %}
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
+<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+<style>
+  .badge_white {
+    color: white;
+  }
+</style>
+
+
+{% endblock %}
+
+{% block customer %}active{% endblock %}
 
 {% block content %}
 {% load static %}
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">Total Applications</p>
-                  <h3 class="card-title">{{values|length}}</h3>
-                </div>
-              </div>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">store</i>
-                  </div>
-                  <p class="card-category">Revenue</p>
-                  <h3 class="card-title">$34,245</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">info_outline</i>
-                  </div>
-                  <p class="card-category">Fixed Issues</p>
-                  <h3 class="card-title">75</h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Followers</p>
-                  <h3 class="card-title">+245</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-12 col-md-12">
-              <div class="card">
-                <div class="card-header card-header-tabs card-header-primary">
-                  <div class="nav-tabs-navigation">
-                    <div class="nav-tabs-wrapper">
-                      <span class="nav-tabs-title">Tasks:</span>
-                      <ul class="nav nav-tabs" data-tabs="tabs">
-                        <li class="nav-item">
-                          <a class="nav-link active" href="#profile" data-toggle="tab">
-                            <i class="material-icons">bug_report</i> Bugs
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#messages" data-toggle="tab">
-                            <i class="material-icons">code</i> Website
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#settings" data-toggle="tab">
-                            <i class="material-icons">cloud</i> Server
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="profile">
-                  <table class="table table-hover">
-                    <thead class="text-primary">
-                      <th>SL NO</th>
-                      <th>Startup Name</th>
-                      <th>Sector</th>
-                      <th>Status</th>
-                    </thead>
-                    <tbody>
-                      {% for value in values %}
-                      <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{value.startup_name}}</td>
-                        <td>{{value.sector}}</td>
-                        <td>pending</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                    </div>
-                    <div class="tab-pane" id="messages">
-                  <table class="table table-hover">
-                    <thead class="text-primary">
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Salary</th>
-                      <th>Country</th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Dakota Rice</td>
-                        <td>$36,738</td>
-                        <td>Niger</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Minerva Hooper</td>
-                        <td>$23,789</td>
-                        <td>Curaçao</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Sage Rodriguez</td>
-                        <td>$56,142</td>
-                        <td>Netherlands</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Philip Chaney</td>
-                        <td>$38,735</td>
-                        <td>Korea, South</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                    </div>
-                    <div class="tab-pane" id="settings">
-                  <table class="table table-hover">
-                    <thead class="text-primary">
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Salary</th>
-                      <th>Country</th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Dakota Rice</td>
-                        <td>$36,738</td>
-                        <td>Niger</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Minerva Hooper</td>
-                        <td>$23,789</td>
-                        <td>Curaçao</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Sage Rodriguez</td>
-                        <td>$56,142</td>
-                        <td>Netherlands</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <p class="card-category">Total Applications</p>
+            <h3 class="card-title">{{values|length}}</h3>
           </div>
         </div>
       </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info_outline</i>
+            </div>
+            <p class="card-category">Pending</p>
+            <h3 class="card-title">{{pendings|length}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Tasks:</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                      <i class="material-icons">present_to_all</i> All
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#messages" data-toggle="tab">
+                      <i class="material-icons">code</i> Pending
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-toggle="tab">
+                      <i class="material-icons">cloud</i> Approved
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active table-responsive" id="profile">
+                <table id="example" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Customer Name</th>
+                    <th>Contact</th>
+                    <th>Sign-Up Date</th>
+                    <th>Delivery Person</th>
+                    <th>Delivery Person-ID</th>
+                    <th>Request</th>
+                    <th>Delete</th>
+                  </thead>
+                  <tbody>
+
+
+                    {% for value in values %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="{% url 'individual_customer' pk=value.pk %}" target="_blank" style="font-weight:bold; color: black;">{{value.name}}</a></td>
+                      <td>{{value.contact_no}}</td>
+                      <td>{{value.sign_up_date}}</td>
+                      {% if value.request %}
+                      <td>{{value.delivery_boy.name}}</td>
+                      <td>{{value.delivery_boy.emp_id}}</td>
+                      <td><span class="badge badge-pill badge-success">Approved</span></td>
+                      {% else %}
+                      <td>Not Assigned</td>
+                      <td>Not Assigned</td>
+                      <td><span class="badge badge-pill badge-danger"><a href="#" data-toggle="modal"
+                            data-target="#customerAccount{{value.pk}}" class="badge_white">Pending</a></span></td>
+                      {% endif %}
+                      <td><a href="#" data-toggle="modal" data-target="#deletecustomer{{value.pk}}"><i class="fas fa-trash"></i></a></td>
+                    </tr>
+                    {% endfor %}
+
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Customer Name</th>
+                      <th>Contact</th>
+                      <th>Sign-Up Date</th>
+                      <th>Delivery Person</th>
+                      <th>Delivery Person-ID</th>
+                      <th>Request</th>
+                      <th>Delete</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="messages">
+                <table id="example1" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Customer Name</th>
+                    <th>Contact</th>
+                    <th>Sign-Up Date</th>
+                    <th>Request</th>
+                  </thead>
+                  <tbody>
+
+                    {% for value in pendings %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">{{value.name}}</a></td>
+                      <td>{{value.contact_no}}</td>
+                      <td>{{value.sign_up_date}}</td>
+                      <td><span class="badge badge-pill badge-danger"><a href="#" data-toggle="modal"
+                        data-target="#customerAccount{{value.pk}}" class="badge_white">Pending</a></span></td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Customer Name</th>
+                      <th>Contact</th>
+                      <th>Sign-Up Date</th>
+                      <th>Request</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="settings">
+                <table id="example2" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Customer Name</th>
+                    <th>Contact</th>
+                    <th>Sign-Up Date</th>
+                    <th>Request</th>
+                  </thead>
+                  <tbody>
+                    {% for value in approvals %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">{{value.name}}</a></td>
+                      <td>{{value.contact_no}}</td>
+                      <td>{{value.sign_up_date}}</td>
+                      <td><span class="badge badge-pill badge-success">Approved</span></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>SL NO</th>
+                      <th>Customer Name</th>
+                      <th>Contact</th>
+                      <th>Sign-Up Date</th>
+                      <th>Request</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+{% for value in values %}
+<div class="modal fade" id="customerAccount{{value.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Approve Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'update_customer' pk=value.pk %}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Customer Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{value.name}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Customer Id</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{value.customer_id}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Delivery Persons</label>
+            <select class="form-control selectpicker" data-style="btn btn-link" name="deli_obj" id="exampleFormControlSelect1" required>
+              <option disabled selected="selected"></option>
+              {% for person in deliverPyersons %}
+              <option value="{{person.pk}}">{{person.emp_id}} {{person.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+<!-- delete modal -->
+{% for value in values %}
+<div class="modal fade" id="deletecustomer{{value.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Delete Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete???</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a href="{% url 'delete_customer' pk=value.pk %}" class="btn btn-danger">Delete</a>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+{% block table_script %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+  });
+
+  $(document).ready(function () {
+    $('#example1').DataTable();
+  });
+
+  $(document).ready(function () {
+    $('#example2').DataTable();
+  });
+</script>
+
 
 {% endblock %}

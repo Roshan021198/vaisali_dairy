@@ -17,4 +17,8 @@ urlpatterns = [
 
 
     path('verify_otp',views.verify_otp,name='verify_otp'),
+
+
+    path('update_customer/<int:pk>/',views.update_customer,name='update_customer'),
+    path('delete_customer/<int:pk>/',views.delete_customer,name='delete_customer'),
 ]

@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+
+{% block table %}
+{% load static %}
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
+<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+
+<style>
+    #createDelivery {
+      position: relative;
+      left: 600px;
+    }
+  
+    /* @media only screen and (max-width: 770px) {
+          #createDelivery{
+          position: relative;
+          left: 100px;
+      }
+  } */
+    @media only screen and (max-width: 1024px) {
+      #createDelivery {
+        position: relative;
+        left: 300px;
+      }
+    }
+  
+    @media only screen and (max-width: 574px) {
+      #createDelivery {
+        position: relative;
+        left: 0;
+      }
+    }
+  </style>
+  
+
+{% endblock %}
+
+
+{% block dashboard %}active{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Total Applications</p>
+            <h3 class="card-title">{{values|length}}</h3>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6 col-sm-6" id="createDelivery">
+        <div class="card card-stats" style="background-color: transparent;">
+          <button type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#addDelivery">ADD Delivery</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Tasks:</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                      <i class="material-icons">present_to_all</i> All
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#messages" data-toggle="tab">
+                      <i class="material-icons">code</i> Pending
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-toggle="tab">
+                      <i class="material-icons">cloud</i> Approved
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active table-responsive" id="profile">
+                <table id="example" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Customer Name(TO)</th>
+                    <th>Delivery Person(FROM)</th>
+                    <th>Transaction Date</th>
+                    <th>Quantity</th>
+                    <th>Price(INR)</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+                   
+                    {% for transaction in transactions %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;" data-toggle="modal" data-target="#addremarks{{transaction.pk}}">{{transaction.connect_customer.name}}</a></td>
+                      <td>{{transaction.from_delivery.name}}</td>
+                      <td>{{transaction.date_of_creation}}</td>
+                      <td>{{transaction.quantity}}</td>
+                      <td>{{transaction.price}}</td>
+                      {% if transaction.customer_approval and transaction.final_approval %}
+                       <td><span class="badge badge-pill badge-success">Completed</span></td>
+                      {% elif transaction.customer_approval %}
+                      <td><span class="badge badge-pill badge-warning">Customer Approved</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                    
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Customer Name(TO)</th>
+                        <th>Delivery Person(FROM)</th>
+                        <th>Transaction Date</th>
+                        <th>Quantity</th>
+                        <th>Price(INR)</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="messages">
+                <table id="example1" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Startup Name</th>
+                        <th>Sector</th>
+                        <th>Form Submitted Date</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="tab-pane" id="settings">
+                <table id="example2" class="table table-striped" style="width:100%">
+                  <thead>
+                    <th>SL NO</th>
+                    <th>Startup Name</th>
+                    <th>Sector</th>
+                    <th>Form Submitted Date</th>
+                    <th>Approved Date</th>
+                    <th>Status</th>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      <td>1</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;">value.startup_name</a></td>
+                      <td>value.sector</td>
+                      <td>value.open_date</td>
+                      <td>value.approved_date</td>
+                      <td><span class="badge badge-pill badge-warning">Approved</span></td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Startup Name</th>
+                        <th>Sector</th>
+                        <th>Form Submitted Date</th>
+                        <th>Approved Date</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addDelivery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">ADD Delivery</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'add_delivery' %}" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-group">
+                <label for="exampleFormControlInput1">From</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{user.deliveryperson_set.first.name}}" disabled>
+                <input type="text" hidden name="name_from" value="{{user.deliveryperson_set.first.pk}}">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Customer</label>
+                <select class="form-control selectpicker" data-style="btn btn-link" name="customer_obj" id="exampleFormControlSelect1" required>
+                  <option disabled selected="selected"></option>
+                  {% for customer in customers %}
+                  <option value="{{customer.pk}}">{{customer.customer_id}} {{customer.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Quantity</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="quantity" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Price</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="price" required>
+              </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+{% for transaction in transactions %}
+<div class="modal fade" id="addremarks{{transaction.pk}}" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">ADD Remarks</h5> <br>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p class="ml-3" style="font-weight:bold;">Date: {{transaction.date_of_creation}}</p>
+      <div class="modal-body">
+        {% if transaction.customer_approval %}
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Customer Name</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1"
+            value="{{transaction.connect_customer.name}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Quantity</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.quantity}}"
+            disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Price</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.price}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Product Status</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.remark}}" disabled>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Customer Message</label>
+          <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"
+            disabled>{{transaction.customer_message}}</textarea>
+        </div>
+        {% else %}
+        <h2>No Data Still Pending From Customer Side</h2>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block table_script %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#example1').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#example2').DataTable();
+} );
+</script>
+
+
+{% endblock %}
