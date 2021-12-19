@@ -103,7 +103,7 @@ The above copyright notice and this permission notice shall be included in all c
 
     
 <div class="content">
-    <div class="container-fluid">
+    <!--Profile-->
       <div class="row">
         <div class="col-md-8">
           <div class="card">
@@ -179,73 +179,233 @@ The above copyright notice and this permission notice shall be included in all c
  
   
       </div>
-    </div>
+
+<!--Money Transaction-->
+{% if user.is_delivery %}
+<div class="row">
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addCustomerMoney">Add Money</button>
   </div>
 </div>
-  
-
- 
-    <div class="container">
-
+{% endif %}
+<div class="row">
+  <div class="col-md-10">
+    <div class="card">
+      <div class="card-header card-header-primary">
+        <h4 class="card-title">Money Transaction (Customer's current WALLET MONEY : <b>₹ {{customer_obj.money}}</b>)</h4>
+        <!-- <p class="card-category">Complete your profile</p> -->
+      </div>
+      <div class="card-body">
         <div class="tab-pane active table-responsive" id="profile">
-            <table id="example" class="table table-striped" style="width:100%">
-              <thead>
-                <th>SL NO</th>
-                <th>Customer Name(TO)</th>
-                <th>Delivery Person(FROM)</th>
-                <th>Transaction Date</th>
-                <th>Quantity</th>
-                <th>Price(INR)</th>
-                <th>Status</th>
-              </thead>
-              <tbody>
-               
-                {% for transaction in transactions %}
-                <tr>
-                  <td>{{forloop.counter}}</td>
-                  <td><a href="#" target="_blank" style="font-weight:bold; color: black;" data-toggle="modal" data-target="#addremarks{{transaction.pk}}">{{transaction.connect_customer.name}}</a></td>
-                  <td>{{transaction.from_delivery.name}}</td>
-                  <td>{{transaction.date_of_creation}}</td>
-                  <td>{{transaction.quantity}}</td>
-                  <td>{{transaction.price}}</td>
-                  {% if transaction.customer_approval and transaction.final_approval %}
-                   <td><span class="badge badge-pill badge-success">Completed</span></td>
-                  {% elif transaction.customer_approval %}
-                  <td><span class="badge badge-pill badge-warning">Customer Approved</span></td>
-                  {% else %}
-                  <td><span class="badge badge-pill badge-danger">Pending</span></td>
-                  {% endif %}
-                </tr>
-                {% endfor %}
+          <table id="example1" class="table table-striped" style="width:100%">
+            <thead>
+              <th>SL NO</th>
+              <th>Customer Name</th>
+              <th>Money Added</th>
+              <th>Transaction Type</th>
+              <th>Transaction ID</th>
+              <th>Transaction Date</th>
+              <th>Trans Registred By</th>
+              <th>Remaining</th>
+              <!-- <th>Remaining Amount</th> -->
+            </thead>
+            <tbody>
+             
+              {% for transaction in money_transactions %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="#" target="_blank" style="font-weight:bold; color: black;">{{transaction.customer_obj.name}}</a></td>
+                <td> <b>₹</b> {{transaction.money_add}}</td>
+                <td>{{transaction.transaction_type}}</td>
+                <td>{{transaction.transaction_id}}</td>
+                <td>{{transaction.added_date}}</td>
+                <td>{{transaction.transaction_registered_by}}</td>
+                <td><b>₹</b> {{transaction.remaining_amount}}</td>
                 
-              </tbody>
-              <tfoot>
-                  <tr>
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+            <tfoot>
+                <tr>
+                  <th>SL NO</th>
+                  <th>Customer Name</th>
+                  <th>Money Added</th>
+                  <th>Transaction Type</th>
+                  <th>Transaction ID</th>
+                  <th>Transaction Date</th>
+                  <th>Trans Registred By</th>
+                  <th>Remaining</th>
+                </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+      <!-- day to day transaction-->
+      <div class="row">
+        <div class="col-md-10">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Transaction</h4>
+              <!-- <p class="card-category">Complete your profile</p> -->
+            </div>
+            <div class="card-body">
+              <div class="tab-pane active table-responsive" id="profile">
+                <table id="example" class="table table-striped" style="width:100%">
+                  <thead>
                     <th>SL NO</th>
                     <th>Customer Name(TO)</th>
                     <th>Delivery Person(FROM)</th>
                     <th>Transaction Date</th>
                     <th>Quantity</th>
                     <th>Price(INR)</th>
+                    <th>Bottle Taken</th>
                     <th>Status</th>
-                  </tr>
-              </tfoot>
-            </table>
-          </div>
-
-    </div>
+                  </thead>
+                  <tbody>
+                   
+                    {% for transaction in transactions %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td><a href="#" target="_blank" style="font-weight:bold; color: black;" data-toggle="modal" data-target="#addremarks{{transaction.pk}}">{{transaction.connect_customer.name}}</a></td>
+                      <td>{{transaction.delivery_per_name}}</td>
+                      <td>{{transaction.date_of_creation}}</td>
+                      <td>{{transaction.quantity}}</td>
+                      <td>{{transaction.price}}</td>
+                      {% if user.is_delivery %}
+                        {% if transaction.bottle_taken %}
+                        <td><span class="badge badge-pill badge-danger"> <a href="#" data-toggle="modal" data-target="#updatebottle{{transaction.pk}}" style="color: white;" > Yes : {{transaction.bottle_nums}} </a></span></td>
+                        {% else %}
+                        <td><span class="badge badge-pill badge-success">No</span></td>
+                        {% endif %}
+                      {% else %}
+                        {% if transaction.bottle_taken %}
+                        <td><span class="badge badge-pill badge-danger">Yes</span></td>
+                        {% else %}
+                        <td><span class="badge badge-pill badge-success">No</span></td>
+                        {% endif %}
+                      {% endif %}
+                      {% if transaction.customer_approval and transaction.final_approval %}
+                       <td><span class="badge badge-pill badge-success">Completed</span></td>
+                      {% elif transaction.customer_approval %}
+                      <td><span class="badge badge-pill badge-warning">Customer Approved</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-danger">Pending</span></td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                    
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                        <th>SL NO</th>
+                        <th>Customer Name(TO)</th>
+                        <th>Delivery Person(FROM)</th>
+                        <th>Transaction Date</th>
+                        <th>Quantity</th>
+                        <th>Price(INR)</th>
+                        <th>Bottle Taken</th>
+                        <th>Status</th>
+                      </tr>
+                  </tfoot>
+                </table>
+              </div>
     
-    <footer class="footer">
-        <div class="container-fluid">
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, All Rights Reserved By
-            <a href="{% url 'index' %}" target="_blank">Vaisali Dairy</a>
+            </div>
           </div>
         </div>
-      </footer>
+  
+      </div>
+    
+  </div>
+  <footer class="footer">
+    <div class="container-fluid">
+      <div class="copyright float-right">
+        &copy;
+        <script>
+          document.write(new Date().getFullYear())
+        </script>, All Rights Reserved By
+        <a href="{% url 'index' %}" target="_blank">Vaisali Dairy</a>
+      </div>
+    </div>
+  </footer>
+</div>
+  
+
+<!-- botlle update modal -->
+{% for transaction in transactions %}
+  {% if transaction.bottle_taken %}
+  <div class="modal fade" id="updatebottle{{transaction.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Update Bottles</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3>Are you sure want to update it ?</h3>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <a href="{% url 'update_customer_bottle' pk=transaction.pk %}" class="btn btn-primary">Update</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+
+<!--money add-->
+{% if user.is_delivery %}
+<div class="modal fade" id="addCustomerMoney" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Add Money</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'addMoney' pk=customer_obj.pk %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Add Money</label>
+              <input type="text" class="form-control" id="AddMoney" name="add_money" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Transaction Type</label>
+              <select class="form-control selectpicker" data-style="btn btn-link" name="transaction_type" id="exampleFormControlSelect1" required>
+                <option disabled selected="selected"></option>
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Transaction-ID/Slip-No</label>
+              <input type="text" class="form-control" id="AddMoney" name="transaction_id" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+   
 
     
 
@@ -274,6 +434,10 @@ The above copyright notice and this permission notice shall be included in all c
     <script>
         $(document).ready(function () {
             $('#example').DataTable();
+           
+        });
+        $(document).ready(function () {
+            $('#example1').DataTable();
            
         });
     </script>

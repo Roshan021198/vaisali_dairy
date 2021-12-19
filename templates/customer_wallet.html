@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block table %}
+{% load static %}
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
+<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap5.min.css">
+
+
+{% endblock %}
+
+
+{% block wallet %}active{% endblock %}
+
+{% block content %}
+{% load static %}
+
+
+
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Money Transaction (WALLET MONEY : <b>₹ {{customer_obj.money}}</b>)</h4>
+              <!-- <p class="card-category">Complete your profile</p> -->
+            </div>
+            <div class="card-body">
+                <table id="example1" class="table table-striped" style="width:100%">
+                    <thead>
+                      <th>SL NO</th>
+                      <th>Customer Name</th>
+                      <th>Money Added</th>
+                      <th>Transaction Type</th>
+                      <th>Transaction ID</th>
+                      <th>Transaction Date</th>
+                      <th>Trans Registred By</th>
+                      <th>Remaining</th>
+                      <!-- <th>Remaining Amount</th> -->
+                    </thead>
+                    <tbody>
+                     
+                      {% for transaction in money_transactions %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="#" target="_blank" style="font-weight:bold; color: black;">{{transaction.customer_obj.name}}</a></td>
+                        <td>{{transaction.transaction_type}}</td>
+                        <td>{{transaction.transaction_id}}</td>
+                        <td>{{transaction.added_date}}</td>
+                        <td>{{transaction.transaction_registered_by}}</td>
+                        <td><b>₹</b> {{transaction.remaining_amount}}</td>
+                        
+                      </tr>
+                      {% endfor %}
+                      
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                          <th>SL NO</th>
+                          <th>Customer Name</th>
+                          <th>Money Added</th>
+                          <th>Transaction Type</th>
+                          <th>Transaction ID</th>
+                          <th>Transaction Date</th>
+                          <th>Trans Registred By</th>
+                          <th>Remaining</th>
+                        </tr>
+                    </tfoot>
+                  </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+{% endblock %}
+
+{% block table_script %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+  $(document).ready(function () {
+    $('#example1').DataTable();
+  });
+</script>
+
+
+{% endblock %}

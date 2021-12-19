@@ -95,7 +95,7 @@
                     <th>Delivery Person</th>
                     <th>Delivery Person-ID</th>
                     <th>Request</th>
-                    <th>Delete</th>
+                    <th>Add/Delete</th>
                   </thead>
                   <tbody>
 
@@ -116,7 +116,7 @@
                       <td><span class="badge badge-pill badge-danger"><a href="#" data-toggle="modal"
                             data-target="#customerAccount{{value.pk}}" class="badge_white">Pending</a></span></td>
                       {% endif %}
-                      <td><a href="#" data-toggle="modal" data-target="#deletecustomer{{value.pk}}"><i class="fas fa-trash"></i></a></td>
+                      <td>{% if value.request %}<a href="#" class="mr-2" data-toggle="modal" data-target="#addDeliveryPerson{{value.pk}}"><i class="fas fa-plus"></i></a>{% endif %} <a href="#" class="ml-2" data-toggle="modal" data-target="#deletecustomer{{value.pk}}"><i class="fas fa-trash"></i></a></td>
                     </tr>
                     {% endfor %}
 
@@ -255,6 +255,43 @@
 </div>
 {% endfor %}
 
+
+
+<!-- ADD Delivery person modal -->
+{% for value in values %}
+<div class="modal fade" id="addDeliveryPerson{{value.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">ADD Delivery Person</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'newDeliveryToCustomer' pk=value.pk %}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Delivery Persons</label>
+            <select class="form-control selectpicker" data-style="btn btn-link" name="deli_obj" id="exampleFormControlSelect1" required>
+              <option disabled selected="selected"></option>
+              {% for person in deliverPyersons %}
+              <option value="{{person.pk}}">{{person.emp_id}} {{person.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 
 <!-- delete modal -->

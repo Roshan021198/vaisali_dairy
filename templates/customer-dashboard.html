@@ -40,8 +40,8 @@
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
-            <p class="card-category">Approved</p>
-            <h3 class="card-title">{{approveds|length}}</h3>
+            <p class="card-category">Bottles I Have</p>
+            <h3 class="card-title">{{bottles}}</h3>
           </div>
         </div>
       </div>
@@ -51,8 +51,8 @@
             <div class="card-icon">
               <i class="material-icons">store</i>
             </div>
-            <p class="card-category">Alortted</p>
-            <h3 class="card-title">{{allorteds|length}}</h3>
+            <p class="card-category">Wallet Money</p>
+            <h3 class="card-title"> <b>₹</b> {{user.customer_set.first.money}}</h3>
           </div>
         </div>
       </div>
@@ -109,8 +109,9 @@
                     <th>Customer Name(TO)</th>
                     <th>Delivery Person(FROM)</th>
                     <th>Transaction Date</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
+                    <th>Quantity(ml)</th>
+                    <th>Price(₹)</th>
+                    <th>Bottle Taken</th>
                     <th>Status</th>
                   </thead>
                   <tbody>
@@ -120,10 +121,15 @@
                       <td>{{forloop.counter}}</td>
                       <td><a href="#" target="_blank" data-toggle="modal" data-target="#addremarks{{transaction.pk}}"
                           style="font-weight:bold; color: black;">{{transaction.connect_customer.name}}</a></td>
-                      <td>{{transaction.from_delivery.name}}</td>
+                      <td>{{transaction.delivery_per_name}}</td>
                       <td>{{transaction.date_of_creation}}</td>
                       <td>{{transaction.quantity}}</td>
                       <td>{{transaction.price}}</td>
+                      {% if transaction.bottle_taken %}
+                      <td><span class="badge badge-pill badge-danger"> Yes : {{transaction.bottle_nums}}</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-success">No</span></td>
+                      {% endif %}
                       {% if transaction.customer_approval and transaction.final_approval %}
                       <td><span class="badge badge-pill badge-success">Completed</span></td>
                       {% elif transaction.customer_approval %}
@@ -141,8 +147,9 @@
                       <th>Customer Name(TO)</th>
                       <th>Delivery Person(FROM)</th>
                       <th>Transaction Date</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
+                      <th>Quantity(ml)</th>
+                      <th>Price(₹)</th>
+                      <th>Bottle Taken</th>
                       <th>Status</th>
                     </tr>
                   </tfoot>
@@ -242,15 +249,15 @@
           <div class="form-group">
             <label for="exampleFormControlInput1">Delivery Person Name</label>
             <input type="text" class="form-control" id="exampleFormControlInput1"
-              value="{{transaction.from_delivery.name}}" disabled>
+              value="{{transaction.delivery_per_name}}" disabled>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Quantity</label>
+            <label for="exampleFormControlInput1">Quantity(ml)</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.quantity}}"
               disabled>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlInput1">Price</label>
+            <label for="exampleFormControlInput1">Price(₹)</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.price}}"
               disabled>
           </div>
@@ -300,6 +307,11 @@
           <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"
             disabled>{{transaction.customer_message}}</textarea>
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Admin Message</label>
+          <textarea class="form-control" name="final_message" id="exampleFormControlTextarea1" rows="3"
+            disabled>{{transaction.final_message}}</textarea>
+        </div>
         {% endif %}
       </div>
 
@@ -316,7 +328,7 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.min.js"></script>
-<!-- <script src="{% static 'assets3/js/demo/demo.js' %}"></script> -->
+<script src="{% static 'assets3/js/demo/demo.js' %}"></script>
 
 <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>

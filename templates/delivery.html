@@ -14,7 +14,7 @@
 <style>
   #createDelivery {
     position: relative;
-    left: 600px;
+    left: 250px;
   }
 
   /* @media only screen and (max-width: 770px) {
@@ -61,10 +61,33 @@
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-6 col-sm-6" id="createDelivery">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">hourglass_full</i>
+            </div>
+            <p class="card-category">Total Bottles</p>
+            <h3 class="card-title">{{total_bottle}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">hourglass_disabled</i>
+            </div>
+            <p class="card-category">Bottle Assigned</p>
+            <h3 class="card-title">{{assigned_bottle}}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats" style="background-color: transparent;">
           <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#deliveryProfileForm">Primary</button>
+            data-target="#deliveryProfileForm">Add Delivery Person</button>
         </div>
       </div>
 
@@ -110,7 +133,10 @@
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Employee ID</th>
+                    <th>Bottle Assigned</th>
                     <th>Account Created</th>
+                    <th>Edit/Delete</th>
+
                   </thead>
                   <tbody>
                     {% for value in values %}
@@ -121,7 +147,9 @@
                       <td>{{value.email}}</td>
                       <td>{{value.contact_no}}</td>
                       <td>{{value.emp_id}}</td>
+                      <td>{{value.original_bottle_assigned}}</td>
                       <td>{{value.date_joined}}</td>
+                      <td><a href="#" class="mr-2" data-toggle="modal" data-target="#editemployee{{value.pk}}"><i class="fas fa-edit"></i></a><a href="#" class="ml-2" data-toggle="modal" data-target="#deleteemployee{{value.pk}}"><i class="fas fa-trash"></i></a></td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -132,7 +160,9 @@
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Employee ID</th>
+                    <th>Bottle Assigned</th>
                     <th>Account Created</th>
+                    <th>Edit/Detele</th>
                     </tr>
                   </tfoot>
                 </table>
@@ -216,7 +246,7 @@
 <!-- Modal -->
 <div class="modal fade" id="deliveryProfileForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Create Delivery Person Account</h5>
@@ -237,6 +267,9 @@
               <input type="text" class="form-control" name="contact_no" id="inputContactNo"
                 placeholder="Contact Number * (USER-ID)" required maxlength="10">
             </div>
+            <div class="form-group col-md-12" id="errordiv" style="display: none;">
+              <p id="uname_error" style="font-weight: bold; color: red; font-size: medium;"></p>
+            </div>
             <div class="form-group col-md-6">
               <input type="test" class="form-control" id="inputIDProof" name="id_proof" placeholder="Id-Proof *" required>
             </div>
@@ -253,6 +286,9 @@
           <div class="form-group">
             <input type="text" class="form-control" name="address" id="inputAddress" placeholder="Address">
           </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="bottle_assigned" id="assignBottle" placeholder="Assign Bottle" required>
+          </div>
           <div class="fileinput fileinput-new text-center" data-provides="fileinput">
             <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
             <div>
@@ -263,6 +299,7 @@
                 </span>
             </div>
         </div>
+       
           <!-- <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputCity">City</label>
@@ -282,7 +319,7 @@
                 </div> -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" class="btn btn-primary" id="employeesignin" disabled>Sign in</button>
           </div>
         </form>
       </div>
@@ -290,6 +327,62 @@
     </div>
   </div>
 </div>
+<!-- Edit modal -->
+{% for value in values %}
+<div class="modal fade" id="editemployee{{value.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Edit Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'edit_employee' pk=value.pk %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-row">
+              <div class="form-group col-md-12">
+                <input type="text" class="form-control" name="bottle" id="assignBottle" placeholder="Assign Bottle" required>
+              </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- delete modal -->
+{% for value in values %}
+<div class="modal fade" id="deleteemployee{{value.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">Delete Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete???</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a href="{% url 'delete_employee' pk=value.pk %}" class="btn btn-danger">Delete</a>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 
 {% endblock %}
@@ -320,5 +413,41 @@
   $(document).ready(function () {
     $('#example2').DataTable();
   });
+
+
+  $('#inputContactNo').change(function () {
+      var uname = $('#inputContactNo').val();
+      console.log(uname.length,"--------");
+      if(uname.length !== 10){
+        $('#errordiv').show()
+        $('#employeesignin').prop('disabled', true);
+          document.getElementById('uname_error').innerText = "please enter valid number";
+      }
+      else{
+        $.ajax({
+          url: "{% url 'verify_uname' %}",
+          data: {
+            'uname': uname,
+          },
+          dataType: 'json',
+          success: function (data) {
+            console.log(data.exist);
+            if (data.exist) {
+              // $("#errordiv").css("display", "none");
+              console.log("123");
+              $('#employeesignin').prop('disabled', true);
+              $('#errordiv').show()
+              document.getElementById('uname_error').innerText = "USER-ID already exist...";
+            }
+            else {
+              // $("#errordiv").css("display", "block");
+              $('#employeesignin').prop('disabled', false);
+              $('#errordiv').hide()
+              document.getElementById('uname_error').innerText = " ";
+            }
+          }
+        })
+      }
+    });
 </script>
 {% endblock %}

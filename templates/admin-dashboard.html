@@ -2,8 +2,8 @@
 
 {% block table %}
 {% load static %}
-<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" />
-<link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
+<!-- <link href="{% static 'assets3/css/fresh-bootstrap-table.css' %}" rel="stylesheet" /> -->
+<!-- <link href="{% static 'assets3/css/demo.css" rel="stylesheet' %}" /> -->
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
   integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -100,6 +100,7 @@
                     <th>Transaction Date</th>
                     <th>Quantity</th>
                     <th>Price(INR)</th>
+                    <th>Bottle Taken</th>
                     <th>Status</th>
                   </thead>
                   <tbody>
@@ -111,6 +112,11 @@
                       <td>{{transaction.date_of_creation}}</td>
                       <td>{{transaction.quantity}}</td>
                       <td>{{transaction.price}}</td>
+                      {% if transaction.bottle_taken %}
+                      <td><span class="badge badge-pill badge-danger">Yes</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-success">No</span></td>
+                      {% endif %}
                       {% if transaction.customer_approval and transaction.final_approval %}
                        <td><span class="badge badge-pill badge-success">Completed</span></td>
                       {% elif transaction.customer_approval %}
@@ -129,6 +135,7 @@
                         <th>Transaction Date</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Bottle Taken</th>
                         <th>Status</th>
                       </tr>
                   </tfoot>
@@ -222,7 +229,7 @@
       </div>
       <p class="ml-3" style="font-weight:bold;">Date: {{transaction.date_of_creation}}</p>
       <div class="modal-body">
-        {% if transaction.customer_approval %}
+        {% if transaction.customer_approval and not transaction.final_approval %}
         <form method="POST" action="{% url 'complete_transaction' pk=transaction.pk %}" enctype="multipart/form-data">{% csrf_token %}
         <div class="form-group">
           <label for="exampleFormControlInput1">Delivery Person Name</label>
@@ -247,11 +254,46 @@
           <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"
             disabled>{{transaction.customer_message}}</textarea>
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Admin Message</label>
+          <textarea class="form-control" name="final_message" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Complete</button>
         </div>
         </form>
+        {% elif transaction.final_approval %}
+        <form method="POST" action="{% url 'complete_transaction' pk=transaction.pk %}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Delivery Person Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1"
+              value="{{transaction.from_delivery.name}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Quantity</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.quantity}}"
+              disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Price</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.price}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Product Status</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{transaction.remark}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Customer Message</label>
+            <textarea class="form-control" name="customer_message" id="exampleFormControlTextarea1" rows="3"
+              disabled>{{transaction.customer_message}}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Admin Message</label>
+            <textarea class="form-control" name="final_message" id="exampleFormControlTextarea1" rows="3"
+              disabled>{{transaction.final_message}}</textarea>
+          </div>
+          </form>
         {% else %}
         <h2>No Data Still Pending From Customer Side</h2>
         {% endif %}

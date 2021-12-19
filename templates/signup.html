@@ -2,78 +2,88 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign Up Form by Colorlib</title>
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{% static 'sign_up/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="{% static 'sign_up/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'sign_up/css/style.css' %}">
+  <!-- Main css -->
+  <link rel="stylesheet" href="{% static 'sign_up/css/style.css' %}">
 
-    <link rel="stylesheet" href="{% static 'homepage/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'homepage/css/bootstrap.css' %}">
 </head>
+
 <body>
 
-    <div class="main">
+  <div class="main">
 
-        <!-- Sign up form -->
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <p style="font-weight: bold;font-size: medium;">Register as Customer</p>
-                        <form method="POST" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-namet"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email(if there)"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact_no"><i class="zmdi zmdi-phone"></i></label>
-                                <input type="text" name="contact_no" id="contact" maxlength="10" placeholder="Contact No.(USER-ID)" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="id_proof"><i class="zmdi zmdi-card"></i></label>
-                                <input type="text" name="id_proof" id="id_proof" placeholder="ID Proof" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="profile_img" style="position: absolute;top: 20px;"><i class="zmdi zmdi-image"></i> Profile Image</label>
-                                <input type="file" name="profile_img" id="profile_img" accept=".jpg,.jpeg,.png," style="margin-top: 50px;" placeholder="Profile Image"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
-                            </div>
-                            <!-- <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                            </div> -->
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="{% static 'sign_up/images/signup-image.jpg' %}" alt="sing up image"></figure>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Sign up form -->
+    <section class="signup">
+      <div class="container_box">
+        <div class="signup-content">
+          <div class="signup-form">
+            <h2 class="form-title">Sign up</h2>
+            <p style="font-weight: bold;font-size: medium;">Register as Customer</p>
+            <p style="font-size: small;">(IMP : Please fill the start marked field '*' .)</p>
+            <form method="POST" action="{% url 'customerAccount' %}" class="register-form"
+              id="register-form" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form-group">
+                <label for="name"><i class="zmdi zmdi-account material-icons-namet"></i></label>
+                <input type="text" name="name" id="name" placeholder="Your Name *" required />
+              </div>
+              <div class="form-group">
+                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                <input type="email" name="email" id="email" placeholder="Your Email(if there)" />
+              </div>
+              <div class="form-group">
+                <label for="contact_no"><i class="zmdi zmdi-phone"></i></label>
+                <input type="text" name="contact_no" id="contact_no" maxlength="10" placeholder="Contact No.(USER-ID)"
+                  required />
+              </div>
+              <p id="uname_error" style="font-weight: bold; color: red; font-size: medium;"></p>
+              <div class="form-group">
+                <label for="id_proof"><i class="zmdi zmdi-card"></i></label>
+                <input type="text" name="id_proof" id="id_proof" placeholder="ID Proof *" required />
+              </div>
+              <div class="form-group">
+                <label for="id_proof"><i class="zmdi zmdi-home"></i></label>
+                <input type="text" name="address" id="address" placeholder="Address *" required />
+              </div>
+              <div class="form-group">
+                <label for="profile_img" style="position: absolute;top: 20px;"><i class="zmdi zmdi-image"></i> Profile
+                  Image</label>
+                <input type="file" name="profile_img" id="profile_img" accept=".jpg,.jpeg,.png,"
+                  style="margin-top: 50px;" placeholder="Profile Image" />
+              </div>
+              <div class="form-group">
+                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                <input type="password" name="password" id="password" placeholder="Password" required />
+              </div>
+              <div class="form-group">
+                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                <input type="password" name="re_pass" id="checkpassword" placeholder="Repeat your password" disabled />
+              </div>
+              <p id="password_match_msg" style="font-weight: bold;font-size: medium;"></p>
+              <div class="form-group form-button">
+                <input name="signup" id="signup" class="btn btn-secondary" value="Register" disabled />
+              </div>
+            </form>
+          </div>
+          <div class="signup-image">
+            <figure><img src="{% static 'sign_up/images/signup-image.jpg' %}" alt="sing up image"></figure>
+            <a href="{% url 'dashboard' %}" class="signup-image-link">Already Have Account Then SIGN-IN</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    </div>
-    <!-- Button trigger modal -->
+  </div>
+  <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Launch demo modal
   </button>
@@ -95,26 +105,99 @@
     </div>
   </div>
 
-    <!-- JS -->
-    <script src="{% static 'sign_up/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'sign_up/js/main.js' %}"></script>
-    <script src="{% static 'homepage/js/bootstrap.bundle.js' %}"></script>
 
-    <script>
-         $('#checkpassword').keyup(function () {
-            password = $('#password').val();
-            cpassword = $('#checkpassword').val();
-            if (password === cpassword) {
-                document.getElementById('password_match_msg').style.color = 'green';
-                document.getElementById('password_match_msg').innerText = 'Password Matched';
-                $('#submit').prop('disabled', false);
+  <!-- Message Modal -->
+  <div class="modal fade" id="submitmessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <div class="modal-body">
+          <h6 id="validation_msg"></h6>
+        </div>
+        <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="{% static 'sign_up/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'sign_up/js/main.js' %}"></script>
+  <script src="{% static 'homepage/js/bootstrap.bundle.js' %}"></script>
+
+  <script>
+
+
+    $('#checkpassword').keyup(function () {
+      password = $('#password').val();
+      cpassword = $('#checkpassword').val();
+      if (password === cpassword) {
+        document.getElementById('password_match_msg').style.color = 'green';
+        document.getElementById('password_match_msg').innerText = 'Password Matched';
+        $('#signup').prop('disabled', false);
+        console.log("green");
+      }
+      else {
+        document.getElementById('password_match_msg').style.color = 'red';
+        document.getElementById('password_match_msg').innerText = "Password Doesn't Matched";
+        $('#signup').prop('disabled', true);
+        console.log("red");
+      }
+    });
+
+
+    $('#contact_no').change(function () {
+      var uname = $('#contact_no').val();
+      console.log(uname.length,"--------");
+      if(uname.length !== 10){
+        $('#checkpassword').prop('disabled', true);
+          document.getElementById('uname_error').innerText = "please enter valid number";
+      }
+      else{
+        $.ajax({
+          url: "{% url 'verify_uname' %}",
+          data: {
+            'uname': uname,
+          },
+          dataType: 'json',
+          success: function (data) {
+            console.log(data.exist);
+            if (data.exist) {
+              // $("#errordiv").css("display", "none");
+              console.log("123");
+              $('#checkpassword').prop('disabled', true);
+              document.getElementById('uname_error').innerText = "USER-ID already exist...";
             }
             else {
-                document.getElementById('password_match_msg').style.color = 'red';
-                document.getElementById('password_match_msg').innerText = "Password Doesn't Matched";
-                $('#submit').prop('disabled', true);
+              // $("#errordiv").css("display", "block");
+              $('#checkpassword').prop('disabled', false);
+              document.getElementById('uname_error').innerText = " ";
             }
-        });
-    </script>
+          }
+        })
+      }
+    });
+
+    $( "#signup" ).click(function() {
+      $('#register-form').submit();
+      $('#signup').prop('disabled', true);
+});
+
+
+    // $('.submitbtn').on('click', function (e) {
+    //   $('#signup').prop('disabled', true);
+    //   $('#submitmessage').modal('show');
+    //   setTimeout(location.reload.bind(location), 20000);
+    //   $('#register-form').submit();
+    // });
+
+
+
+  </script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
 </html>

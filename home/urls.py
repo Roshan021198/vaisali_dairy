@@ -7,6 +7,7 @@ urlpatterns = [
     path('user/',views.user,name='user'),
     path('customer/',views.customer,name='customer'),
     path('deliverytab/',views.deliverytab,name='deliverytab'),
+    path('customer_wallet/',views.customer_wallet,name='customer_wallet'),
 
     path('add_delivery/',views.add_delivery,name='add_delivery'),
 
@@ -15,4 +16,7 @@ urlpatterns = [
 
     path('individual_customer/<int:pk>/',views.individual_customer,name='individual_customer'),
     path('individual_delivery_person/<int:pk>/',views.individual_delivery_person,name='individual_delivery_person'),
+
+    path('update_customer_bottle/<int:pk>/',views.update_customer_bottle,name='update_customer_bottle'),
+    path('addMoney/<int:pk>/',views.addMoney,name='addMoney'),
 ]

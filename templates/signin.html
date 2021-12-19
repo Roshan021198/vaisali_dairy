@@ -1,0 +1,420 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'sign_up/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'sign_up/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'homepage/css/bootstrap.css' %}">
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sign IN form -->
+        <section class="sign-in">
+            <div class="container_box">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="{% static 'sign_up/images/signin-image.jpg' %}" alt="sing up image"></figure>
+                        <a href="{% url 'sign_up' %}" class="signup-image-link">Create an account as CUSTOMER</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" action="{% url 'dashboard_login' %}" class="register-form" id="login-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="floatinginput"><i class="zmdi zmdi-phone material-icons-name"></i></label>
+                                <input type="text" name="contact_no" maxlength="10" id="floatinginput"
+                                    placeholder="Contact Number (USER-ID)" />
+                            </div>
+                            <p id="uname_error" style="font-weight: bold; color: red; font-size: medium;"></p>
+                            <div class="form-group">
+                                <label for="floatinginput2"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="floatinginput2" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" disabled/>
+                                
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Show
+                                    Password</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="button" name="signin" id="submitbtn" class="btn btn-secondary"
+                                    value="Log in" disabled />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label-agree-term"><span><span></span></span><a href="#" id="forget_pwd">Forget Password</a></label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>Form Submited Successfully. Please check your mail.</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--invalid passwod Modal -->
+  <div class="modal fade" id="invalidUserPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>Invalid Username or Password.</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Forget passwod Modal -->
+  <div class="modal fade" id="forget_uname_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Forget Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="forget_uname_input" class="form-control" placeholder="Registred Phone Number"
+            maxlength="10" aria-label="Username" aria-describedby="basic-addon1" required>
+        </div>
+        <h6 style="text-align: center;color: red;" id="forget_username_msg"></h6>
+        <h6 style="text-align: center;color: green;" id="without_emailid"></h6>
+        <h6 style="text-align:center;">An OTP will be send to the email associated with this username..</h6>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" id="send_email_btn" data-bs-dismiss="modal" disabled>Send
+            E-Mail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--otp Modal -->
+  <div class="modal fade" id="otp_input_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">OTP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="forget_otp_input" class="form-control" placeholder="Enter 4 digit OTP"
+            aria-label="Username" aria-describedby="basic-addon1" required>
+        </div>
+        <h6 id="otp_error_msg" style="text-align: center;"></h6>
+        <h6 style="text-align:center;">Enter the OTP you have received on your mail <span id="otp_email"
+            style="font-weight: bold;color: green;"></span></h6>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" id="reset_pwd_btn" data-bs-dismiss="modal" disabled>Reset
+            Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--password set Modal -->
+  <div class="modal fade" id="password_set_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="password" id="reset_forget_password" class="form-control" placeholder="Enter new password"
+            aria-label="Username" aria-describedby="basic-addon1" required>
+          <br>
+          <input type="password" id="reset_confirm_forget_password" class="form-control"
+            placeholder="Enter confirm password" aria-label="Username" aria-describedby="basic-addon1" required>
+        </div>
+        <input type="hidden" id="username_hidden_field">
+        <h6 id="password_match_msg" style="text-align: center;"></h6>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" id="update_pwd_btn" data-bs-dismiss="modal" disabled>Update
+            Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--passwod successful Modal -->
+  <div class="modal fade" id="password_success_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>Password Updated Successfylly !!</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <script src="{% static 'sign_up/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'homepage/js/bootstrap.bundle.js' %}"></script>
+    <script>
+        $('#floatinginput').change(function () {
+      var uname = $('#floatinginput').val();
+      console.log(uname);
+      $.ajax({
+        url: "{% url 'verify_login_uname' %}",
+        data: {
+          'uname': uname,
+        },
+        dataType: 'json',
+        success: function (data) {
+          console.log(data.exist);
+          if (data.exist) {
+            if(data.message === "customer"){
+              $("#errordiv").css("display", "block");
+            document.getElementById('uname_error').innerText = "Your account is in process PLEASE wait for message/mail for confirmation..  ";
+            }
+            else{
+              $("#errordiv").css("display", "none");
+            document.getElementById('uname_error').innerText = " ";
+            }
+           
+
+
+          }
+          else {
+            $("#errordiv").css("display", "block");
+            document.getElementById('uname_error').innerText = "Username doesn't exist...";
+          }
+        }
+      })
+    });
+
+    $('#floatinginput2').keyup(function () {
+      var value = $('#floatinginput2').val();
+      if (value.length > 0) {
+        $('#remember-me').prop('disabled', false);
+        $('#submitbtn').prop('disabled', false);
+      }
+      else {
+        $('#remember-me').prop('disabled', true);
+        $('#submitbtn').prop('disabled', true);
+      }
+    });
+    $(document).ready(function () {
+      $('input[type="checkbox"]').click(function () {
+        var x = document.getElementById("floatinginput2");
+        if ($(this).prop("checked") == true) {
+          x.type = "text";
+        }
+        else if ($(this).prop("checked") == false) {
+          x.type = "password";
+        }
+      });
+    });
+
+
+    $('#submitbtn').on('click', function (e) {
+
+      uname = document.getElementById('floatinginput').value;
+      password = document.getElementById('floatinginput2').value;
+      console.log(uname,password)
+      setTimeout(location.reload.bind(location), 60000);
+      $.ajax({
+
+        url: "{% url 'uname_pwd_check' %}",
+        data: {
+          'uname': uname,
+          'pwd': password
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.exist) {
+            $('#login-form').submit();
+          }
+          else {
+
+            $("#invalidUserPassword").modal('show');
+
+          }
+        },
+      })
+
+    });
+
+
+    $('#forget_pwd').on('click', function () {
+      $('#forget_uname_modal').modal('show');
+    });
+
+
+    $('#forget_uname_input').keyup(function () {
+      uname = $('#forget_uname_input').val();
+      document.getElementById('username_hidden_field').innerText = uname;
+
+      $.ajax({
+        url: "{% url 'forget_username' %}",
+        data: {
+          'uname': uname
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_exist) {
+            if (data.type === 'customer' && data.email === "panigrahi.babu98@gmail.com") {
+              document.getElementById('without_emailid').innerText = "please contact on 9583219040 no for your OTP";
+            }
+            document.getElementById('forget_username_msg').style.color = 'green';
+            document.getElementById('forget_username_msg').innerText = data.email;
+            document.getElementById('otp_email').innerText = data.email;
+            $('#send_email_btn').prop('disabled', false);
+            $.ajax({
+              url: "{% url 'forget_email_sending' %}",
+              data: {
+                'email': data.email
+              },
+              dataType: 'json',
+              success: function (data) {
+                document.getElementById('correct_otp_hidden').innerText = " ";
+
+              }
+            })
+          }
+          else {
+            document.getElementById('forget_username_msg').style.color = 'red';
+            document.getElementById('forget_username_msg').innerText = "Username doesn't exist !!";
+            $('#send_email_btn').prop('disabled', true);
+          }
+        }
+      })
+
+    });
+
+
+
+
+
+    $('#send_email_btn').on('click', function () {
+      $('#forget_uname_modal').modal('hide');
+      $('#otp_input_modal').modal('show');
+    });
+
+    $('#forget_otp_input').keyup(function () {
+      entred_otp = $('#forget_otp_input').val();
+      $.ajax({
+        url: "{% url 'verify_otp' %}",
+        data: {
+          'entred_otp': entred_otp
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.exist == 'true') {
+
+            document.getElementById('otp_error_msg').style.color = 'green';
+            document.getElementById('otp_error_msg').innerText = 'OTP Matched';
+            // document.getElementById("login_form").action = ;
+
+            $('#reset_pwd_btn').prop('disabled', false);
+
+
+          }
+          else {
+            document.getElementById('otp_error_msg').style.color = 'red';
+            document.getElementById('otp_error_msg').innerText = "OTP did not Match";
+            $('#reset_pwd_btn').prop('disabled', true);
+          }
+        }
+      })
+
+    });
+
+    $('#reset_pwd_btn').on('click', function () {
+      $('#otp_input_modal').modal('hide');
+      $('#password_set_modal').modal('show');
+    });
+
+    $('#reset_confirm_forget_password').keyup(function () {
+      password = $('#reset_forget_password').val();
+      cpassword = $('#reset_confirm_forget_password').val();
+      if (password === cpassword) {
+        document.getElementById('password_match_msg').style.color = 'green';
+        document.getElementById('password_match_msg').innerText = 'Password Matched';
+        $('#update_pwd_btn').prop('disabled', false);
+      }
+      else {
+        document.getElementById('password_match_msg').style.color = 'red';
+        document.getElementById('password_match_msg').innerText = "Password Doesn't Matched";
+        $('#update_pwd_btn').prop('disabled', true);
+      }
+    });
+
+
+    $('#update_pwd_btn').on('click', function () {
+      password = $('#reset_forget_password').val();
+      uname = document.getElementById('username_hidden_field').innerText;
+
+      $.ajax({
+        url: "{% url 'set_password' %}",
+        data: {
+          'password': password,
+          'username': uname
+        },
+        dataType: 'json',
+        success: function (data) {
+          $('#password_success_modal').modal('show');
+          $('#password_set_modal').modal('hide');
+        }
+      })
+    });
+
+    </script>
+
+</body>
+
+</html>

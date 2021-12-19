@@ -15,7 +15,7 @@
 <style>
     #createDelivery {
       position: relative;
-      left: 600px;
+      left: 300px;
     }
   
     /* @media only screen and (max-width: 770px) {
@@ -27,16 +27,16 @@
     @media only screen and (max-width: 1024px) {
       #createDelivery {
         position: relative;
-        left: 300px;
+        left: 100px;
       }
     }
   
-    @media only screen and (max-width: 574px) {
+    /* @media only screen and (max-width: 574px) {
       #createDelivery {
         position: relative;
         left: 0;
       }
-    }
+    } */
   </style>
   
 
@@ -56,18 +56,37 @@
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
-            <p class="card-category">Total Applications</p>
+            <p class="card-category">Total Submittion</p>
             <h3 class="card-title">{{values|length}}</h3>
           </div>
         </div>
       </div>
-      
+
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Total Bottles</p>
+            <h3 class="card-title">{{total_bottles}}</h3>
+          </div>
+        </div>
+      </div>
+      {% if total_bottles == '0' %}
+      <div class="col-lg-3 col-md-6 col-sm-6" id="createDelivery">
+        <div class="card card-stats" style="background-color: transparent;">
+          <button type="button" disabled class="btn btn-primary" title="you can not add more transaction ">There is no Bottles</button>
+        </div>
+      </div>
+      {% else %}
       <div class="col-lg-3 col-md-6 col-sm-6" id="createDelivery">
         <div class="card card-stats" style="background-color: transparent;">
           <button type="button" class="btn btn-primary" data-toggle="modal"
             data-target="#addDelivery">ADD Delivery</button>
         </div>
       </div>
+      {% endif %}
 
     </div>
 
@@ -108,10 +127,11 @@
                   <thead>
                     <th>SL NO</th>
                     <th>Customer Name(TO)</th>
-                    <th>Delivery Person(FROM)</th>
+                    <!-- <th>Delivery Person(FROM)</th> -->
                     <th>Transaction Date</th>
-                    <th>Quantity</th>
-                    <th>Price(INR)</th>
+                    <th>Quantity(ml)</th>
+                    <th>Price(₹)</th>
+                    <th>Bottle Taken</th>
                     <th>Status</th>
                   </thead>
                   <tbody>
@@ -120,10 +140,15 @@
                     <tr>
                       <td>{{forloop.counter}}</td>
                       <td><a href="#" target="_blank" style="font-weight:bold; color: black;" data-toggle="modal" data-target="#addremarks{{transaction.pk}}">{{transaction.connect_customer.name}}</a></td>
-                      <td>{{transaction.from_delivery.name}}</td>
+                      <!-- <td>{{transaction.delivery_per_name}}</td> -->
                       <td>{{transaction.date_of_creation}}</td>
                       <td>{{transaction.quantity}}</td>
                       <td>{{transaction.price}}</td>
+                      {% if transaction.bottle_taken %}
+                      <td><span class="badge badge-pill badge-danger"> Yes : {{transaction.bottle_nums}}</span></td>
+                      {% else %}
+                      <td><span class="badge badge-pill badge-success">No</span></td>
+                      {% endif %}
                       {% if transaction.customer_approval and transaction.final_approval %}
                        <td><span class="badge badge-pill badge-success">Completed</span></td>
                       {% elif transaction.customer_approval %}
@@ -139,10 +164,11 @@
                       <tr>
                         <th>SL NO</th>
                         <th>Customer Name(TO)</th>
-                        <th>Delivery Person(FROM)</th>
+                        <!-- <th>Delivery Person(FROM)</th> -->
                         <th>Transaction Date</th>
                         <th>Quantity</th>
                         <th>Price(INR)</th>
+                        <th>Bottle Taken</th>
                         <th>Status</th>
                       </tr>
                   </tfoot>
@@ -249,12 +275,25 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="exampleFormControlInput1">Quantity</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" name="quantity" required>
+                <label for="exampleFormControlInput2">Quantity : Price</label>
+                <select class="form-control selectpicker" data-style="btn btn-link" name="milkvalue" id="exampleFormControlSelect2" required>
+                  <option disabled selected="selected"></option>
+                  {% for value in milkValue %}
+                  <option value="{{value.pk}}">{{value.quantity}}ml : ₹{{value.price}}</option>
+                  {% endfor %}
+                </select>
               </div>
               <div class="form-group">
-                <label for="exampleFormControlInput1">Price</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" name="price" required>
+                <label for="subjectName">Bottle Given To Customer</label>
+                <select class="form-control selectpicker" data-style="btn btn-link" name="bottle_given" id="subjectName" onchange="selectedSubjectName()" required>
+                  <option disabled selected="selected">Select</option>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+              <div class="form-group" style="display: none;" id="pitch">
+                <label for="bot_nos">Bottle Nos.</label>
+                <input type="text" class="form-control" id="bot_nos" name="bottle_nos" required>
               </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -344,5 +383,21 @@ $(document).ready(function() {
 } );
 </script>
 
+<script>
+  function selectedSubjectName() {
+    var subjectIdNode = document.getElementById('subjectName');
+    var value = subjectIdNode.options[subjectIdNode.selectedIndex].text;
+    console.log(value);
+    if(value === "Yes"){
+        console.log(value);
+        $('#pitch').show();
+        document.getElementById("bot_nos").required = true;
+    }
+    else if(value === "No"){
+      document.getElementById("bot_nos").required = false;
+      $('#pitch').css('display','none')
+    }
+}
+</script>
 
 {% endblock %}
